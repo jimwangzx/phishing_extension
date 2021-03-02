@@ -110,6 +110,8 @@ window.onload = function(){
 
       console.log(URLHasSusKeywords());
 
+      chrome.runtime.sendMessage({ from:"features_js", message:"return_score", score:score});
+
   }
   /**********************DOMAIN&CERT-BASED FEATURES****************************/
 

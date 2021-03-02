@@ -1,5 +1,6 @@
 var currentTabId = 0;
 var currentTab = "";
+var score = "";
 
 //Prendo la tab attiva
 chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
@@ -50,10 +51,12 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
       return true; // Asincrona
     }
     // Richiesta delle info sul certificato dal popup-script
-    if (message.from == "popup_js" && message.message == "get_cert_info") {
-        chrome.tabs.sendMessage(currentTabId, { from:"background_js", message:"get_cert_info" }, function(data){
-            sendResponse({ from:"background_js", requested: "get_cert_info", response: data.response });
-        });
+    if (message.from == "features_js" && message.message == "return_score") {
+        score = message.score;
+        chrome.tabs.sendMessage(currentTabId, {message: score});
+        if (message.score >= 100){
+            alert("WARNING: Phishing site");
+        }
     }
 
 });
