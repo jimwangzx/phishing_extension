@@ -1,0 +1,31 @@
+{
+    "manifest_version": 2,
+    "name": "Phishing_extension",
+    "description": "Detect phshing sites",
+    "version": "0.1.0",
+
+    "icons": {
+      "16": "images/get_started16.png",
+      "48": "images/get_started48.png",
+      "128": "images/get_started128.png"
+    },
+    "browser_action": {
+      "default_icon": "images/get_started32.png",
+      "default_popup": "popup.html"
+    },
+    "background": {
+      "scripts": ["background.js"],
+      "persistent": true
+    },
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["features.js", "jquery-3.1.1.min.js"]
+      }
+    ],
+    "permissions": [
+      "storage",
+      "tabs",
+      "https://*.blupig.net/" /* Server per ricavare il certificato dalle pagine */
+    ]
+  }
