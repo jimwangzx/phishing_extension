@@ -3,12 +3,16 @@ window.onload = function(){
   var currentTab;
   var certInfo;
   var susKeywords;
+  var validDomains;
   var susTlds = [".ga",".gq",".ml",".cf",".tk",".xyz",".pw",".cc",".club",".work",".top",".support",".bank",".info",".study",".click",".country",".stream",".gdn",".mom",".xin",".kim",".men",".loan",".download",".racing",".online",".center",".ren",".gb",".win",".review",".vip",".party",".tech",".science",".business"]
+
+  var validDomain = [];
 
   chrome.runtime.sendMessage({ from:"features_js", message:"get_current_tab" }, function(data){
       currentTab = data.response;
-      chrome.storage.sync.get(function(susKy){
-        susKeywords = susKy;
+      chrome.storage.sync.get(function(data){
+        susKeywords = data.keywords[0];
+        validDomains = data.validDomain;
         getCertInfo(currentTab);
       });
   });
@@ -24,6 +28,16 @@ window.onload = function(){
 
       //Se la pagina ha protocollo sicuro
       if (hasSecureProtocol()){
+          for (var domain of validDomains) {
+              if (certInfo.subject_common_name == domain) {
+                  chrome.runtime.sendMessage({ from:"features_js", message:"return_score", score:0});
+                  console.log("SCORE: "+score);
+                  return false;
+              }
+          }
+
+          console.log(certInfo);
+
           if (isIssuedFromFreeCA()){
               score += 10;
               console.log("Issued from free CA: "+isIssuedFromFreeCA()+" (+10)");
@@ -108,7 +122,7 @@ window.onload = function(){
 
       console.log("SCORE: "+score);
 
-      console.log(URLHasSusKeywords());
+      //console.log(URLHasSusKeywords());
 
       chrome.runtime.sendMessage({ from:"features_js", message:"return_score", score:score});
 
