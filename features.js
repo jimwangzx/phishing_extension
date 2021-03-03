@@ -28,6 +28,7 @@ window.onload = function(){
 
       //Se la pagina ha protocollo sicuro
       if (hasSecureProtocol()){
+        
           for (var domain of validDomains) {
               if (certInfo.subject_common_name == domain) {
                   chrome.runtime.sendMessage({ from:"features_js", message:"return_score", score:0});
