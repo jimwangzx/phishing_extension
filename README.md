@@ -18,7 +18,7 @@ The following articles deal with the detection of phishing sites through machine
   * "Intelligent phishing url detection using association rule mining"
   * "Intelligent Rule based Phishing Websites Classification"
   
-When we connect to a site the extension verifies the presence of features and assigns a score whether each of them occurs or not. When a particular web page reaches or exceeds the score of 100, an alert will appear by reporting the page as potentially phishing.
+When we connect to a site the extension verifies the presence of features and assigns a score whether each of them occurs or not. 
 
 
 
