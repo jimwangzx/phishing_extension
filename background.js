@@ -54,7 +54,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     if (message.from == "features_js" && message.message == "return_score") {
         score = message.score;
         chrome.tabs.sendMessage(currentTabId, {message: score});
-        if (message.score >= 100){
+        if (message.score >= 60){
             alert("WARNING: Phishing site");
         }
     }
@@ -91,13 +91,13 @@ function requestCertInfo(hostname, callback) {
 }
 
 chrome.runtime.onInstalled.addListener(() => {
-    chrome.storage.sync.clear();
-    chrome.storage.sync.set(
-        // Suspicious keywords
-        {
-          keywords:
+   chrome.storage.sync.clear();
+   chrome.storage.sync.set(
+      // Suspicious keywords
+      {
+         keywords:
             [
-              {
+               {
                   login:         25,
                   'log-in':      25,
                   'sign-in':     25,
@@ -216,112 +216,161 @@ chrome.runtime.onInstalled.addListener(() => {
                   laposte:       50
                }
             ],
-          validDomain:
+         validDomain:
             [
-              "portal.office.com",
-              "www.microsoft.com",
-              "support.microsoft.com",
-              "docs.microsoft.com",
-              "account.live.com",
-              "Outlook.live.com",
-              "*.msn.com",
-              "www.apple.com",
-              "support.apple.com",
-              "developer.apple.com",
-              "www.icloud.com",
-              "itunes.apple.com",
-              "protonmail.com",
-              "careers.protonmail.com",
-              "tutanota.com",
-              "mail.google.com",
-              "*.google.com",
-              "*.www.yahoo.com",
-              "*.login.yahoo.com",
-              "*.autos.yahoo.com",
-              "*.xn--d1acpjx3f.xn--p1ai",
-              "mail.yandex.ru",
-              "disk.yandex.com",
-              "translate.yandex.ru",
-              "appmetrica.yandex.ru",
-              "browser.yandex.ru",
-              "twitter.com",
-              "*.twitter.com",
-              "*.facebook.com",
-              "tumblr.com",
-              "*.reddit.com",
-              "*.reddithelp.com",
-              "us.linkedin.com",
-              "www.linkedin.com",
-              "microsites.linkedin.com",
-              "*.www.instagram.com",
-              "*.instagram.com",
-              "flickr.com",
-              "help.flickr.com",
-              "blog.flickr.com",
-              "*.whatsapp.net",
-              "whatsappbrand.com",
-              "localbitcoins.com",
-              "poloniex.com",
-              "*.poloniex.com",
-              "www.bithumb.com",
-              "www.kraken.com",
-              "support.kraken.com",
-              "futures.kraken.com",
-              "www.bitstamp.com",
-              "www.bitstamp.net",
-              "www.blockchain.com",
-              "bitflyer.com",
-              "www.coinbase.com",
-              "hitbtc.com",
-              "www.lakebtc.com",
-              "bitcoin.org",
-              "bitfinex.com",
-              "docs.bitfinex.com",
-              "coinsbank.com",
-              "www.paypal.com",
-              "newsroom.paypal-corp.com",
-              "developer.paypal.com",
-              "www.moneygram.com",
-              "www.westernunion.com",
-              "www.bankofamerica.com",
-              "careers.bankofamerica.com",
-              "www.wellsfargo.com",
-              "www.citi.com",
-              "*.santanderconsumer.it",
-              "www.morganstanley.com",
-              "www.investmentbank.barclays.com",
-              "home.barclays",
-              "international.barclays.com",
-              "www.barclays.co.uk",
-              "www.hsbc.com",
-              "www.tdameritrade.com",
-              "*.ameritrade.com",
-              "www.merrilledge.com",
-              "www.amazon.com",
-              "www.amazon.it",
-              "music.amazon.com",
-              "business.amazon.com",
-              "services.amazon.com",
-              "kdp.amazon.com",
-              "advertising.amazon.com",
-              "developer.amazon.com",
-              "aws.amazon.com",
-              "vdp.amazon.com",
-              "twitch.map.fastly.net",
-              "*.alibaba.com",
-              "*.aliexpress.com",
-              "www.netflix.com",
-              "help.netflix.com",
-              "www.skype.com",
-              "github.com",
-              "github.blog",
-              "www.github.com",
-              "onedrive.com",
-              "*.dropbox.com",
-              "blog.dropbox.com"
+               //Microsoft
+               'microsoft.com',
+               'office.com',
+               'microsoftonline.com',
+               'microsoft365.com',
+               'skype.com',
+               'onedrive.com',
+               'live.com',
 
+               //Apple
+               'www.itunes.com',
+               'apple.com',
+               'icloud.com',
+
+               //Protonmail
+               'protonmail.com',
+               'protonmail.ch',
+               'protonvpn.com',
+               'pm.me',
+
+               //Google
+               'google.com',
+               'android.com',
+               'google-analytics.com',
+               'google.ca',
+               'google.cl',
+               'google.co.in',
+               'google.co.jp',
+               'google.co.uk',
+               'google.com.ar',
+               'google.com.au',
+               'google.com.br',
+               'google.com.co',
+               'google.com.mx',
+               'google.com.tr',
+               'google.com.vn',
+               'google.de',
+               'google.es',
+               'google.fr',
+               'google.hu',
+               'google.it',
+               'google.nl',
+               'google.pl',
+               'google.pt',
+               'googlevideo.com',
+               'youtube.com',
+               'youtubekids.com',
+               'yt.be',
+               'g.co',
+               'goo.gl',
+               'urchin.com',
+               'youtu.be',
+               'youtubeeducation.com',
+
+               //Yahoo
+               'www.yahoo.com',
+               'yahoo.com',
+               'yahoo.net',
+
+               //Yandex
+               'xn--d1acpjx3f.xn--p1ai',
+               'yandex.ru',
+               'yandex.com',
+
+               //Twitter
+               'twitter.com',
+
+               //Facebook
+               'facebook.com',
+               'facebook.net',
+               'messenger.com',
+
+               //Tumblr
+               'tumblr.com',
+
+               //Reddit
+               'reddit.com',
+               'reddithelp.com',
+
+               //Linkedin
+               'us.linkedin.com',
+               'linkedin.com',
+
+               //Instagram
+               'instagram.com',
+               'www.instagram.com',
+
+               //Flickr
+               'flickr.com',
+
+               //Whatsapp
+               'whatsapp.net',
+               'whatsappbrand.com',
+
+               //Bitcoin
+               'localbitcoins.com',
+               'poloniex.com',
+               'bithumb.com',
+               'kraken.com',
+               'bitstamp.com',
+               'bitstamp.net',
+               'blockchain.com',
+               'bitflyer.com',
+               'coinbase.com',
+               'hitbtc.com',
+               'lakebtc.com',
+               'bitcoin.org',
+               'bitfinex.com',
+               'coinsbank.com',
+
+               //Paypal
+               'paypal.com',
+               'www.paypal.com',
+
+               //Bank
+               'moneygram.com',
+               'westernunion.com',
+               'bankofamerica.com',
+               'wellsfargo.com',
+               'citi.com',
+               'santanderconsumer.it',
+               'morganstanley.com',
+               'barclays.com',
+               'barclays.co.uk',
+               'hsbc.com',
+               'tdameritrade.com',
+               'merrilledge.com',
+               'unipol.it',
+               'intesasanpaolo.com',
+
+               //Amazon
+               'amazon.com',
+               'amazon.it',
+               'www.amazon.it',
+               'www.amazon.com',
+
+               //Alibaba
+               'air.alibaba.com',
+               'aliexpress.com',
+
+               //Netlix
+               'netflix.com',
+               'www.netflix.com',
+
+               //Github
+               'www.github.com',
+               'github.com',
+               'github.blog',
+
+               //Dropbox
+               'dropbox.com'
             ]
-        }
+      }
 
     );
 
