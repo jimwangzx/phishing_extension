@@ -1,13 +1,13 @@
 var baseNode = Object.defineProperties({},
 	{
-	    //Campi del nodo
+	   //Campi del nodo
 		chars: {writable: true, value: null},
 		end : {writable: true, value: null}
 	});
 
 function Node(){
 	this.chars = new Map();
-    this.end = false;
+   this.end = false;
 }
 
 Node.prototype = baseNode;
@@ -15,35 +15,35 @@ Node.prototype = baseNode;
 //Struttura Trie
 var baseTrie = Object.defineProperties({},
 	{
-	    //Campi del Trie
+	   //Campi del Trie
 		root: {writable: true, value: null},
 
 		//Metodi del Trie
 		insert: {writable: false, value: function(word){
-            if (typeof word === 'undefined') return null;
+         if (typeof word === 'undefined') return null;
 
-            var current = this.root;
+         var current = this.root;
 
-            for (let c of word){
-                if (!current.chars.has(c)){
-                    current.chars.set(c, new Node());
-                }
-                current = current.chars.get(c);
+         for (let c of word){
+            if (!current.chars.has(c)){
+               current.chars.set(c, new Node());
             }
-            current.end = true;
+            current = current.chars.get(c);
+         }
+         current.end = true;
 		}},
 		search: {writable: false, value: function(word){
-            if (typeof word === 'undefined') return false;
+         if (typeof word === 'undefined') return false;
 
-            var current = this.root;
+         var current = this.root;
 
-            for (let c of word){
-                if (!current.chars.has(c)){
-                    return false;
-                }
-                current = current.chars.get(c);
+         for (let c of word){
+            if (!current.chars.has(c)){
+               return false;
             }
-            return current.end;
+            current = current.chars.get(c);
+         }
+         return current.end;
 		}},
 		remove: {writable: false, value: function(word){
 
